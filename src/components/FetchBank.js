@@ -7,7 +7,7 @@ function FetchBank() {
   const [banks, setBanks] = useState([]);
   const [error, setError] = useState(null);
   const [currCity, setCurrCity] = useState("DELHI");
-  const [currCat, setCurrCat] = useState("");
+  const [currCat, setCurrCat] = useState("bank_name");
   const [loading, setLoading] = useState(true);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(10);
