@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Loader from "./Loader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 function FetchBank() {
   const [banks, setBanks] = useState([]);
@@ -17,7 +17,6 @@ function FetchBank() {
   let navigateTo = useNavigate();
 
   useEffect(() => {
-    // setLoading(true);
     getBanks();
     window.localStorage.setItem("CurrentCity", currCity);
   }, [currCity]);
@@ -37,9 +36,10 @@ function FetchBank() {
 
   function getBanks() {
     setLoading(true);
-    console.log("loading started");
+
     const currTime = new Date().getTime();
 
+    //Local Storage for Caching
     if (window.localStorage.getItem(`timeStamp${currCity}`)) {
       const devTime = Number(
         window.localStorage.getItem(`timeStamp${currCity}`)
@@ -57,6 +57,7 @@ function FetchBank() {
       setLoading(false);
       return;
     }
+    // API Call
     axios
       .get(`https://vast-shore-74260.herokuapp.com/banks?city=${currCity}`)
       .then((response) => {
@@ -74,10 +75,12 @@ function FetchBank() {
       });
   }
 
+  //Navigation to Bank Detail Page
   function getBankDetails(e) {
     navigateTo(`/bank-details/${e.ifsc}`);
   }
 
+  //Getting Favourite Banks List
   const getFavourites = () => {
     if (window.localStorage.getItem("Favourites")) {
       setFavouriteList(JSON.parse(window.localStorage.getItem("Favourites")));
@@ -87,6 +90,7 @@ function FetchBank() {
     }
   };
 
+  //Pagination
   function getPaginatedArray(arr) {
     const start = pageNo * pageSize;
     const end = Number(start) + Number(pageSize);
@@ -156,7 +160,9 @@ function FetchBank() {
   return (
     <div>
       {loading ? (
-        <Loader />
+        <div className="loader">
+          <ClipLoader color={"#5468ff"} size={64} />
+        </div>
       ) : (
         <>
           <div>
@@ -164,18 +170,19 @@ function FetchBank() {
               <div className="searchBar">
                 <i className="fa fa-search searchIcon"></i>
                 <input
-                  className="search"
+                  className="search form-control"
                   type="search"
                   onChange={getBanksData}
-                  placeholder="Enter value to be searched"
+                  placeholder="Search..."
                 />
               </div>
 
-              <form>
+              <form className="d-flex">
                 <label htmlFor="city">Select City:</label>
                 <select
                   name="city"
                   id="city"
+                  className="form-select"
                   value={currCity}
                   onChange={(e) => {
                     setCurrCity(e.target.value);
@@ -191,11 +198,12 @@ function FetchBank() {
                 </select>
               </form>
 
-              <form>
+              <form className="d-flex">
                 <label htmlFor="category">Select Category:</label>
                 <select
                   name="category"
                   id="category"
+                  className="form-select"
                   value={currCat}
                   onChange={(e) => setCurrCat(e.target.value)}
                 >
@@ -208,9 +216,10 @@ function FetchBank() {
               </form>
             </div>
             {
+              //table display
               <div>
-                <p id="bankList">All Banks</p>
-                <table id="banks">
+                <p id="text">All Banks</p>
+                <table className="table table-responsive " id="banks">
                   <thead>
                     <tr>
                       <th>Favourite</th>
@@ -262,12 +271,13 @@ function FetchBank() {
               </div>
             }
             <div className="pagination">
-              <form>
-                <label htmlFor="pageSize">Rows Per Page</label>
+              <form className="d-flex">
+                <label htmlFor="pageSize">Rows Per Page:</label>
                 <select
                   name="pageSize"
                   id="pageSize"
                   value={pageSize}
+                  className="form-select"
                   onChange={(e) => {
                     setPageSize(e.target.value);
                     setPageNo(0);
@@ -280,9 +290,16 @@ function FetchBank() {
                   <option value="50">50</option>
                 </select>
               </form>
-              <button onClick={prevPage}>Left</button>
-              {pageNo}
-              <button onClick={nextPage}>Right</button>
+              <div className="d-flex">
+                <button className="page" onClick={prevPage}>
+                  &lt;
+                </button>
+                <div>{pageNo}</div>
+
+                <button className="page" onClick={nextPage}>
+                  &gt;
+                </button>
+              </div>
             </div>
           </div>
         </>

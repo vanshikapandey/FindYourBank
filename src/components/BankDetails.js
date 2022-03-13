@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Loader from "./Loader";
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 
 function BankDetails() {
@@ -23,6 +23,7 @@ function BankDetails() {
       setLoading(false);
       return;
     }
+    //api call
     axios
       .get(`https://vast-shore-74260.herokuapp.com/banks?city=${city}`)
       .then((response) => {
@@ -32,29 +33,32 @@ function BankDetails() {
       })
       .catch((e) => {
         setError(e);
+        console.log(error);
       });
   }
 
-  console.log(bankData);
+  //edge case
   if (bankData?.length === 0) {
-    return <div>Invalid IFSC Code!</div>;
+    return <p id="text">Invalid IFSC Code!</p>;
   }
 
   return loading ? (
-    <Loader />
+    <div className="loader">
+      <ClipLoader color={"#5468ff"} size={64} />
+    </div>
   ) : (
     <div>
-      Bank Details
-      <div>
-        {bankData[0].bank_name}
+      <p id="text">Bank Details</p>
+      <div className="card">
+        <p>Bank Name : {bankData[0].bank_name}</p>
         <br />
-        {bankData[0].ifsc}
+        <p>Bank IFSC : {bankData[0].ifsc}</p>
         <br />
-        {bankData[0].branch}
+        <p>Bank Branch : {bankData[0].branch}</p>
         <br />
-        {bankData[0].bank_id}
+        <p>Bank Id : {bankData[0].bank_id}</p>
         <br />
-        {bankData[0].address}
+        <p>Bank Address{bankData[0].address}</p>
         <br />
       </div>
     </div>

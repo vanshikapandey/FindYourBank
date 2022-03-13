@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "./Loader";
+import { ClipLoader } from "react-spinners";
 
 export default function Favourite() {
   const [favouriteList, setFavouriteList] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   let navigateTo = useNavigate();
@@ -13,6 +12,7 @@ export default function Favourite() {
     getFavourites();
   }, []);
 
+  //local storage
   useEffect(() => {
     window.localStorage.setItem("Favourites", JSON.stringify(favouriteList));
   }, [favouriteList]);
@@ -21,28 +21,27 @@ export default function Favourite() {
     if (window.localStorage.getItem("Favourites")) {
       setFavouriteList(JSON.parse(window.localStorage.getItem("Favourites")));
       setLoading(false);
-    } else {
-      console.log("empty");
     }
   };
-
-  function getBankDetails(e, ifsc) {
-    console.log(e);
+  //navigation to bank details
+  function getBankDetails(e) {
     navigateTo(`/bank-details/${e.ifsc}`);
   }
-
+  //edge case
   if (favouriteList.length === 0) {
-    return <div>No records to display.</div>;
+    return <p id="text">No records to display.</p>;
   }
 
   return (
     <div>
       {loading ? (
-        <Loader />
+        <div className="loader">
+          <ClipLoader color={"#5468ff"} size={64} />
+        </div>
       ) : (
         <div>
-          <p id="bankList">Favorites</p>
-          <table id="banks">
+          <p id="text">Favorites</p>
+          <table className="table table-responsive" id="banks">
             <thead>
               <tr>
                 <th>Favourite</th>

@@ -8,10 +8,24 @@
   font-family: "Montserrat", sans-serif;
   font-family: "Outfit", sans-serif;
   font-weight: 600;
+  white-space: nowrap;
+}
+body {
+  background-color: rgba(221, 221, 221, 0.219);
+}
+
+.nav {
+  background-color: #5468ff;
+  height: 7vh;
+}
+
+.nav .nav-item .nav-link {
+  color: white;
+  font-size: 18px;
 }
 
 .navBar {
-  background-color: #26d7ab;
+  background-color: #5468ff;
   overflow: hidden;
   line-height: 5vh;
   font-weight: 600;
@@ -105,14 +119,13 @@ button {
 
   padding: 2px 23px 2px 30px;
   outline: 0;
-  background-color: #00ffc313;
 }
 
 form label {
   margin-right: 10px;
 }
 
-#bankList {
+#text {
   margin-left: 45%;
   margin-top: 5vh;
   font-size: 28px;
@@ -125,12 +138,24 @@ form label {
 .pagination form {
   margin-right: 5vh;
 }
+.card {
+  width: 50%;
+  margin-left: 55vh;
+  margin-top: 10vh;
+  padding-left: 5vh;
+  padding-top: 5vh;
+}
 
 .footer {
-  background-color: #26d7ab;
+  background-color: #5468ff;
   padding-left: 45%;
   padding-top: 5vh;
-  margin-top: 8vh;
-  color: black;
+  margin-top: 60vh;
+  color: white;
   height: 12vh;
+}
+
+.loader {
+  margin-left: 50%;
+  margin-top: 10vh;
 }
